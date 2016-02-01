@@ -68,7 +68,10 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 alias vi='/usr/local/bin/vim'
 # alias vim='/usr/local/bin/vim'
 
-# starting up vim to set the environment variable required 
+# setup .vimrc file env variable
+export MY_VIMRC='/Users/levblanc/.vimrc'
+
+ #starting up vim to set the environment variable required 
 # to enable true colour in Neovim
 # (doesn't work quite well. Disable for now. @2016-02-01)
 #
