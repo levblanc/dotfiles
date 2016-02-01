@@ -84,6 +84,7 @@ NeoBundleCheck
 let mapleader = " "
 
 set encoding=utf8
+set t_Co=256
 
 set number
 set numberwidth=5
@@ -362,9 +363,13 @@ let g:syntastic_style_warning_symbol = '!'
 " vim-airline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:airline_powerline_fonts = 1
+
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_tab_nr = 1
+
+let g:airline_symbols.space = "\ua0"
+
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
