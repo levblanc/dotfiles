@@ -64,10 +64,16 @@ export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/dist
 # android env variable
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
+# alias system vim to newer version vim (v7.4.1147)
+alias vi='/usr/local/bin/vim'
+# alias vim='/usr/local/bin/vim'
+
 # starting up vim to set the environment variable required 
 # to enable true colour in Neovim
-alias v='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
-alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+# (doesn't work quite well. Disable for now. @2016-02-01)
+#
+# alias v='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+# alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 
 # enable pyenv shims and autocompletion
 eval "$(pyenv init -)"
