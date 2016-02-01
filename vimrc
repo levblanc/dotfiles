@@ -38,7 +38,7 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'valloric/MatchTagAlways'
 NeoBundle 'matze/vim-move'
-NeoBundle 'vim-scripts/EasyMotion'
+NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-surround'
@@ -197,6 +197,10 @@ inoremap <silent> <C-S> <C-O>:update<CR>
 " also map leader + s
 map <leader>s <C-S>
 
+" hotkeys to open and reload .vimrc file
+nnoremap <leader>lrc :source $MY_VIMRC<cr>
+nnoremap <leader>erc :vs $MY_VIMRC<cr>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping for window navigation
 " https://github.com/aaronjensen/vimfiles/blob/41315d26407de7c3d2bbabd2d412b049642f09b5/vimrc#L466-L497
@@ -317,8 +321,20 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Easy Motion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:EasyMotion_leader_key = '<Leader>'
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
 
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-move
