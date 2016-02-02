@@ -144,6 +144,8 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
 
+" ignore files and dir in vim
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " theme
@@ -265,7 +267,7 @@ if has("autocmd")
 	autocmd FileType gitcommit setlocal spell
 
 	" Make files look pretty
-	autocmd FileType css,scss,sass :ColorHighlight
+	autocmd FileType css,scss,sass,less :ColorHighlight
 	" Allow stylesheets to autocomplete hyphenated words
 	autocmd FileType css,scss,sass,less setlocal iskeyword+=-
 
@@ -368,6 +370,9 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_tab_nr = 1
 
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 let g:airline_symbols.space = "\ua0"
 
 
@@ -375,7 +380,7 @@ let g:airline_symbols.space = "\ua0"
 " This replicates the idea of closing a tab
   nmap <C-w> :bp <BAR> bd #<CR>
 " Create new tab
-  nmap <C-t> :enew<cr>
+  nmap <C-t> :enew<CR>
 " Move to the next buffer
   nmap <S-j> :bnext<CR>
 " Move to the previous buffer
@@ -426,10 +431,9 @@ call NERDTreeHighlightFile('php','Magenta', 'none', '#ff00ff','#151515')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " ctrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" exclude files and dir with vim
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " exclude files and dir with ctrlp
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|DS_Store)$'
+" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|DS_Store|node_modules)$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|git|svn|DS_Store))$'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_switch_buffer = 0
@@ -437,7 +441,6 @@ let g:ctrlp_switch_buffer = 0
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'find %s -type f'
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 

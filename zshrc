@@ -68,6 +68,9 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 alias vi='/usr/local/bin/vim'
 # alias vim='/usr/local/bin/vim'
 
+# hook up .agignore
+alias ag='ag --path-to-agignore=~/.agignore'
+
 # setup .vimrc file env variable
 export MY_VIMRC='/Users/levblanc/.vimrc'
 
