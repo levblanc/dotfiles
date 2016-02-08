@@ -24,14 +24,15 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'ctrlpvim/ctrlp.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'                  " fuzzy search
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'rking/ag.vim'
-NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'                  " git support
+NeoBundle 'wincent/terminus'                    " better terminal integration
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'ryanoasis/vim-webdevicons'
+NeoBundle 'vim-airline/vim-airline'             " status bar at window bottom
+NeoBundle 'ryanoasis/vim-webdevicons'           " icons for programming languages, libraries, and web developer filetypes
 
 " Coding Utils
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -84,7 +85,6 @@ NeoBundleCheck
 let mapleader = " "
 
 set encoding=utf8
-set t_Co=256
 
 set number
 set numberwidth=5
@@ -150,6 +150,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " theme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256
 syntax enable
 set background=dark
 colorscheme gruvbox
@@ -175,6 +176,7 @@ set laststatus=2
 " key mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 noremap <C-f> :Autoformat<CR>"'
+nnoremap <leader>a :Ag<space>
 
 " Stop highlight after searching
 nnoremap <C-e> :noh<CR>
@@ -185,7 +187,6 @@ vnoremap <Space> za
 
 " This is the best
 nnoremap ; :
-nnoremap : ;
 
 " Use enter to create new lines w/o entering insert mode
 nnoremap <CR> o<Esc>
