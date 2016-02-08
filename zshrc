@@ -74,12 +74,18 @@ alias ag='ag --path-to-agignore=~/.agignore'
 # setup .vimrc file env variable
 export MY_VIMRC='/Users/levblanc/.vimrc'
 
- #starting up vim to set the environment variable required 
+# setup env variable EDITOR
+export EDITOR='vim'
+
+# starting up vim to set the environment variable required 
 # to enable true colour in Neovim
 # (doesn't work quite well. Disable for now. @2016-02-01)
 #
 # alias v='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 # alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+
+# tmuxinator completion file
+source ~/.zsh_tmuxinator_completion
 
 # enable pyenv shims and autocompletion
 eval "$(pyenv init -)"
