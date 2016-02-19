@@ -1,4 +1,5 @@
 "NeoBundle Scripts-----------------------------
+"
 
 " NeoBundle scripts cannot be putted into separate file
 
@@ -91,10 +92,11 @@ set numberwidth=5
 
 set backspace=2 " Backspace deletes like most programs in insert mode
 
-set list
-set listchars=tab:▸\ ,extends:»,precedes:«,trail:·,nbsp:·
+" set list
+" set listchars=tab:▸\ ,extends:»,precedes:«,trail:·,nbsp:·
 
-set wrap
+set wrap linebreak nolist
+
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -155,8 +157,9 @@ syntax enable
 set background=dark
 colorscheme gruvbox
 
-highlight NonText guifg=#4a4a59
-highlight SpecialKey guifg=#4a4a59
+" highlight NonText guifg=#4a4a59
+" highlight SpecialKey guifg=#4a4a59
+
 " if one line is longer than 80 chars, give it a red bg
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
@@ -175,6 +178,13 @@ set laststatus=2
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Navigate between display lines
+noremap <silent> <Up> gk
+noremap <silent> <Down> gj
+noremap <silent> k gk
+noremap <silent> j gj
+
 noremap <C-f> :Autoformat<CR>"'
 nnoremap <leader>a :Ag<space>
 
@@ -243,6 +253,12 @@ else
 	map <C-l> <C-w>l
 endif
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Javascript omni complete
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vimjs#casesensistive = 1
+let g:vimjs#smartcomplete = 0
+let g:vimjs#chromeapis = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Only do this part when compiled with support for autoCommands
@@ -268,9 +284,38 @@ if has("autocmd")
 	autocmd FileType gitcommit setlocal spell
 
 	" Make files look pretty
-	autocmd FileType css,scss,sass,less :ColorHighlight
+	" autocmd FileType css,scss,sass,less :ColorHighlight
 	" Allow stylesheets to autocomplete hyphenated words
 	autocmd FileType css,scss,sass,less setlocal iskeyword+=-
+
+	" auto-complete
+	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+
+	" Remapping emmet's default keys '<C-y>,'
+	function! s:expand_html_tab()
+		" try to determine if we're within quotes or tags.
+		" if so, assume we're in an emmet fill area.
+		let line = getline('.')
+		if col('.') < len(line)
+			let line = matchstr(line, '[">][^<"]*\%'.col('.').'c[^>"]*[<"]')
+			if len(line) >= 2
+				return "\<C-n>"
+			endif
+		endif
+		" expand anything emmet thinks is expandable.
+		if emmet#isExpandable()
+			return "\<C-y>,"
+		endif
+		" return a regular tab character
+		return "\<tab>"
+	endfunction
+	
+	autocmd FileType html imap <buffer><expr><tab> <sid>expand_html_tab()
+
+	" enable emmet just for html/css
+	autocmd FileType html,css EmmetInstall
 
 	" Treat .rss files as XML
 	autocmd BufNewFile,BufRead *.rss setfiletype xml
@@ -321,7 +366,6 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Easy Motion
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -340,10 +384,71 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-move
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:move_key_modifier = 'C'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" neo-snippet
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" key-mappings
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/vim-snippets'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" neocomplete
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vimjs#casesensistive = 1
+let g:vimjs#smartcomplete = 0
+let g:vimjs#chromeapis = 0   
+
+let g:neocomplete#enable_at_startup = 1
+" set minimum syntax keyword length
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: closeopup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+
+function! s:my_cr_function()
+	return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" For no inserting <CR> key.
+" return pumvisible() ? '\<C-y>' : '\<CR>'
+endfunction
+
+" <TAB>: completion.
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" <C-h>, <BS>: closeopup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -434,9 +539,9 @@ call NERDTreeHighlightFile('php','Magenta', 'none', '#ff00ff','#151515')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " exclude files and dir with ctrlp
 " let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|DS_Store|node_modules)$'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|git|svn|DS_Store))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|svn|DS_Store))$'
 let g:ctrlp_by_filename = 0
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_switch_buffer = 0
 
 if executable('ag')
