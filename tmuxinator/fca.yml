@@ -30,7 +30,7 @@ root: ~/fengche/fengche-assistant/src
 windows:
   - editor: vi carshop/view/carshopDetailView.js
   - server:
-      layout: even-vertial
+      layout: even-vertical
       panes:
         - gulp
         - #empty, will just run plain zsh
