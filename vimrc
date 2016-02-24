@@ -389,13 +389,17 @@ nmap <Leader>w <Plug>(easymotion-overwin-w)
 " tabular
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <space>= to align equals signs
-" <space>: to align colon signs
-if exists(":Tabularize")
-	nmap <Leader>= :Tabularize /=<CR>
-	vmap <Leader>= :Tabularize /=<CR>
-	nmap <Leader>: :Tabularize /:\zs<CR>
-	vmap <Leader>: :Tabularize /:\zs<CR>
-endif
+" <space>= to align equals signs
+" if exists(":Tabularize")
+" 	nnoremap <leader>ag= :Tabularize /=<CR>
+" 	vnoremap <leader>ag= :Tabularize /=<CR>
+" 	nnoremap <leader>ag: :Tabularize /:\zs<CR>
+" 	vnoremap <leader>ag: :Tabularize /:\zs<CR>
+" endif
+nnoremap <leader>al= :Tabularize /=<CR>
+vnoremap <leader>al= :Tabularize /=<CR>
+nnoremap <leader>al: :Tabularize /:\zs<CR>
+vnoremap <leader>al: :Tabularize /:\zs<CR>
 
 " call the :Tabularize command each time you insert a | character. 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
