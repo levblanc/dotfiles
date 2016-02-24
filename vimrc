@@ -186,7 +186,7 @@ noremap <silent> k gk
 noremap <silent> j gj
 
 noremap <C-f> :Autoformat<CR>"'
-nnoremap <leader>a :Ag<space>
+nnoremap <leader>ag :Ag<space>
 
 " Stop highlight after searching
 nnoremap <C-e> :noh<CR>
@@ -398,8 +398,8 @@ nmap <Leader>w <Plug>(easymotion-overwin-w)
 " endif
 nnoremap <leader>al= :Tabularize /=<CR>
 vnoremap <leader>al= :Tabularize /=<CR>
-nnoremap <leader>al: :Tabularize /:\zs<CR>
-vnoremap <leader>al: :Tabularize /:\zs<CR>
+nnoremap <leader>al: :Tabularize /:<CR>
+vnoremap <leader>al: :Tabularize /:<CR>
 
 " call the :Tabularize command each time you insert a | character. 
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
