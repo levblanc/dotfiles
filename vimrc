@@ -82,12 +82,13 @@ NeoBundleCheck
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Utils
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader - ( Spacebar )
+" Leader - ( spacebar )
 let mapleader = " "
 
 set encoding=utf8
 
-set number
+set relativenumber  " Show relative line numbers
+set number          " Show current line number
 set numberwidth=5
 
 set backspace=2 " Backspace deletes like most programs in insert mode
@@ -150,6 +151,11 @@ set sidescroll=1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+" abbreviations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+iabbrev -- =>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " theme
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
@@ -191,12 +197,12 @@ nnoremap <leader>ag :Ag<space>
 " Stop highlight after searching
 nnoremap <C-e> :noh<CR>
 
-" Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
-
 " This is the best
 nnoremap ; :
+" Align blocks of text and keep them selected
+vmap < <gv
+vmap > >gv
+vnoremap <c-/> :TComment<cr>
 
 " Use enter to create new lines w/o entering insert mode
 nnoremap <CR> o<Esc>
@@ -214,6 +220,28 @@ map <leader>s <C-S>
 " hotkeys to open and reload .vimrc file
 nnoremap <leader>lrc :source $MY_VIMRC<cr>
 nnoremap <leader>erc :vs $MY_VIMRC<cr>
+
+" " parenthesis And Brackets Handling 
+inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
+" inoremap ( ()<Esc>:call BC_AddChar(")")<CR>i
+" inoremap [ []<Esc>:call BC_AddChar("]")<CR>i
+" inoremap " ""<Esc>:call BC_AddChar("\"")<CR>i
+" jump out ofarenthesis
+inoremap <C-j> <Esc>:call search(BC_GetChar(), "W")<CR>a
+
+function! BC_AddChar(schar)
+	if exists("b:robstack")
+ 		let b:robstack = b:robstack . a:schar
+   	else
+    		let b:robstack = a:schar
+     	endif
+endfunction
+
+function! BC_GetChar()
+	let l:char = b:robstack[strlen(b:robstack)-1]
+	let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
+	return l:char
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping for window navigation
@@ -252,6 +280,67 @@ else
 	map <C-k> <C-w>k
 	map <C-l> <C-w>l
 endif
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" code folding (taken from Mike Hartington) 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+
+function! JavaScriptFold() "{{{
+  " syntax region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+  setlocal foldmethod=syntax
+  setlocal foldlevel=99
+  echo "hello"
+  syn region foldBraces start=/{/ skip=/\(\/\/.*\)\|\(\/.*\/\)/ end=/}/ transparent fold keepend extend
+endfunction "}}}
+
+" function! HTMLFold() "{{{
+"   " syn sync fromstart
+"   set foldmethod=syntax
+"   syn region HTMLFold start=+^<\([^/?!><]*[^/]>\)\&.*\(<\1\|[[:alnum:]]\)$+ end=+^</.*[^-?]>$+ fold transparent keepend extend
+"   syn match HTMLCData "<!\[CDATA\[\_.\{-}\]\]>" fold transparent extend
+"   syn match HTMLCommentFold "<!--\_.\{-}-->" fold transparent extend
+" endfunction "}}}
+
+set foldtext=MyFoldText()
+set foldlevel=99
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+
+autocmd FileType vim setlocal fdc=1
+autocmd FileType vim setlocal foldmethod=marker
+autocmd FileType vim setlocal foldlevel=0
+
+" au FileType html call HTMLFold()
+" autocmd FileType html setlocal foldmethod=syntax
+autocmd FileType html setlocal fdl=99
+
+" autocmd FileType javascript call JavaScriptFold()
+autocmd FileType javascript,html,css,scss setlocal foldlevel=99
+autocmd FileType javascript,css,scss,json setlocal foldmethod=marker
+autocmd FileType javascript,css,scss,json setlocal foldmarker={,}
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Javascript omni complete
@@ -417,6 +506,14 @@ endfunction
 			
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+" delimitMate
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+" let g:delimitMate_jump_expansion=1
+" let g:delimitMate_balance_matchpairs=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-move
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:move_key_modifier = 'C'
@@ -440,7 +537,7 @@ if has('conceal')
 endif
 
 " Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/vim-snippets'
+" let g:neosnippet#snippets_directory='~/.vim/vim-snippets'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -538,7 +635,7 @@ let g:airline_symbols.space = "\ua0"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <C-k> :NERDTree<CR>
+map <leader>nd :NERDTree<CR>
 map <C-\> :NERDTreeToggle<CR>
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -568,21 +665,23 @@ call NERDTreeHighlightFile('php','Magenta', 'none', '#ff00ff','#151515')
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " ctrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" exclude files and dir with ctrlp
-" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|DS_Store|node_modules)$'
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|svn|DS_Store))$'
-let g:ctrlp_by_filename = 0
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_switch_buffer = 0
 
 if executable('ag')
   " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg=ag\ --nogroup\ --nocolor 
+  " nnoremap <silent> t :CtrlP<cr>
+
+  " exclude files and dir with ctrlp
+  let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|svn|DS_Store))$'
+  " let g:ctrlp_by_filename = 0
+  let g:ctrlp_by_filename = 1
+  let g:ctrlp_match_window = 'bottom,order:ttb'
+  let g:ctrlp_switch_buffer = 0
+  let g:ctrlp_working_path_mode = 'ra'
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
-endif
+endif 
 
 
