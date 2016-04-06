@@ -48,9 +48,12 @@ NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'heavenshell/vim-jsdoc'
 
 " Color Schemes
-NeoBundle 'morhetz/gruvbox' "gruvbox colorscheme
+NeoBundle 'morhetz/gruvbox'                  " gruvbox colorscheme
+" NeoBundle 'altercation/vim-colors-solarized' " solarized colorscheme
+NeoBundle 'crusoexia/vim-monokai'            " monokai colorscheme
 
 " Syntax highlight
 NeoBundle 'scrooloose/syntastic'
@@ -161,7 +164,9 @@ iabbrev -- =>
 set t_Co=256
 syntax enable
 set background=dark
-colorscheme gruvbox
+" colorscheme gruvbox
+" let g:solarized_termcolors=256
+colorscheme monokai
 
 " highlight NonText guifg=#4a4a59
 " highlight SpecialKey guifg=#4a4a59
@@ -221,12 +226,12 @@ map <leader>s <C-S>
 nnoremap <leader>lrc :source $MY_VIMRC<cr>
 nnoremap <leader>erc :vs $MY_VIMRC<cr>
 
-" " parenthesis And Brackets Handling 
+" parenthesis And Brackets Handling 
 inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
 " inoremap ( ()<Esc>:call BC_AddChar(")")<CR>i
 " inoremap [ []<Esc>:call BC_AddChar("]")<CR>i
 " inoremap " ""<Esc>:call BC_AddChar("\"")<CR>i
-" jump out ofarenthesis
+" jump out of parenthesis
 inoremap <C-j> <Esc>:call search(BC_GetChar(), "W")<CR>a
 
 function! BC_AddChar(schar)
@@ -242,6 +247,12 @@ function! BC_GetChar()
 	let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
 	return l:char
 endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" key mapping for JsDoc
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nnoremap <silent> <C-l> <Plug>(jsdoc)
+nnoremap <leader>doc :JsDoc<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping for window navigation
@@ -616,9 +627,9 @@ let g:airline_symbols.space = "\ua0"
 " Create new tab
   nmap <C-t> :enew<CR>
 " Move to the next buffer
-  nmap <S-j> :bnext<CR>
+  nmap <S-k> :bnext<CR>
 " Move to the previous buffer
-  nmap <S-k> :bprevious<CR>
+  nmap <S-j> :bprevious<CR>
 
   let g:airline#extensions#tabline#buffer_idx_mode = 1
   nmap <leader>1 <Plug>AirlineSelectTab1
