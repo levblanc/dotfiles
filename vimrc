@@ -26,8 +26,8 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'ctrlpvim/ctrlp.vim'                  " fuzzy search
-NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'rking/ag.vim'
+NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-fugitive'                  " git support
 NeoBundle 'wincent/terminus'                    " better terminal integration
 NeoBundle 'tmux-plugins/vim-tmux'
@@ -40,7 +40,8 @@ NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'valloric/MatchTagAlways'
 NeoBundle 'matze/vim-move'
-NeoBundle 'easymotion/vim-easymotion'
+NeoBundle 'justinmk/vim-sneak'
+" NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-surround'
@@ -130,7 +131,7 @@ set mouse=a
 set gdefault      " Never have to type /g at the end of search / replace again
 set ignorecase    " case insensitive searching (unless specified)
 set smartcase
-set hlsearch
+" set hlsearch
 set incsearch
 set showmatch
 
@@ -156,7 +157,7 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " abbreviations
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-iabbrev -- =>
+iabbrev aff =>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " theme
@@ -167,7 +168,7 @@ set background=dark
 " colorscheme gruvbox
 " let g:solarized_termcolors=256
 colorscheme monokai
-
+let g:airline_theme='badwolf'
 " highlight NonText guifg=#4a4a59
 " highlight SpecialKey guifg=#4a4a59
 
@@ -207,7 +208,7 @@ nnoremap ; :
 " Align blocks of text and keep them selected
 vmap < <gv
 vmap > >gv
-vnoremap <c-/> :TComment<cr>
+vnoremap <C-/> :TComment<cr>
 
 " Use enter to create new lines w/o entering insert mode
 nnoremap <CR> o<Esc>
@@ -221,10 +222,6 @@ vnoremap <silent> <C-S> <C-C>:update<CR>
 inoremap <silent> <C-S> <C-O>:update<CR>
 " also map leader + s
 map <leader>s <C-S>
-
-" hotkeys to open and reload .vimrc file
-nnoremap <leader>lrc :source $MY_VIMRC<cr>
-nnoremap <leader>erc :vs $MY_VIMRC<cr>
 
 " parenthesis And Brackets Handling 
 inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
@@ -451,6 +448,12 @@ if has("autocmd")
 		\ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
 		\   exe "normal g`\"" |
 		\ endif
+	
+	" rainbow_parentheses always on
+	au VimEnter * RainbowParenthesesToggle
+	au Syntax * RainbowParenthesesLoadRound
+	au Syntax * RainbowParenthesesLoadSquare
+	au Syntax * RainbowParenthesesLoadBraces
 end
 
 function! <SID>StripTrailingWhitespaces()
@@ -466,23 +469,46 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 
 
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Easy Motion
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " <Leader>f{char} to move to {char}
+" map  <Leader>f <Plug>(easymotion-bd-f)
+" nmap <Leader>f <Plug>(easymotion-overwin-f)
+"
+" " s{char}{char} to move to {char}{char}
+" nmap s <Plug>(easymotion-overwin-f2)
+"
+" " Move to line
+" map <Leader>L <Plug>(easymotion-bd-jk)
+" nmap <Leader>L <Plug>(easymotion-overwin-line)
+"
+" " Move to word
+" map  <Leader>w <Plug>(easymotion-bd-w)
+" nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" Easy Motion
+" rainbow parentheses configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
