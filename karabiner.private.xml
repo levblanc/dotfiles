@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- rcm's mkrc command cannot locate this file in 
+     /Users/levblanc/Library/Application\ Support/Karabiner/private.xml, 
+     because of its location. The only solution I can think of now is to
+     make a copy mannually, since I am not going to modify any other keys.  -->
+<root>
+	<item>
+		<name>Remap Arrow Keys</name>
+		<identifier>private.remap_arrow_keys</identifier>
+		<autogen>__KeyToKey__ KeyCode::H, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_LEFT</autogen>
+		<autogen>__KeyToKey__ KeyCode::J, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_DOWN</autogen>
+		<autogen>__KeyToKey__ KeyCode::K, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_UP</autogen>
+		<autogen>__KeyToKey__ KeyCode::L, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_RIGHT</autogen>
+	</item>
+	<item>
+		<name>Remap Backspace</name>
+		<identifier>private.remap_backspace</identifier>
+		<autogen>__KeyToKey__ KeyCode::SEMICOLON, VK_CONTROL | ModifierFlag::NONE, KeyCode::DELETE</autogen>
+	</item>
+</root>
+
