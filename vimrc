@@ -22,9 +22,10 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Add or remove your Bundles here:
 
 " Vim Utils
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
+" NeoBundle 'Shougo/neocomplete.vim'
+" NeoBundle 'Shougo/neosnippet.vim'
+" NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'ctrlpvim/ctrlp.vim'                  " fuzzy search
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
@@ -33,7 +34,9 @@ NeoBundle 'wincent/terminus'                    " better terminal integration
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'vim-airline/vim-airline'             " status bar at window bottom
+NeoBundle 'vim-airline/vim-airline-themes'
 NeoBundle 'ryanoasis/vim-webdevicons'           " icons for programming languages, libraries, and web developer filetypes
+NeoBundle 'elentok/plaintasks.vim'              
 
 " Coding Utils
 NeoBundle 'kien/rainbow_parentheses.vim'
@@ -96,6 +99,7 @@ set number          " Show current line number
 set numberwidth=5
 
 set backspace=2 " Backspace deletes like most programs in insert mode
+set linespace=5
 
 " set list
 " set listchars=tab:▸\ ,extends:»,precedes:«,trail:·,nbsp:·
@@ -147,13 +151,17 @@ set matchpairs+=<:>
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set scrolloff=12         "Start scrolling when we're 12 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
 
 " ignore files and dir in vim
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
+" config for webpack
+" by default this is set to 'auto'
+" which cause problems with webpack's watch mechanism
+set backupcopy=yes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " abbreviations
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -224,10 +232,10 @@ inoremap <silent> <C-S> <C-O>:update<CR>
 map <leader>s <C-S>
 
 " parenthesis And Brackets Handling 
-inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
-" inoremap ( ()<Esc>:call BC_AddChar(")")<CR>i
-" inoremap [ []<Esc>:call BC_AddChar("]")<CR>i
-" inoremap " ""<Esc>:call BC_AddChar("\"")<CR>i
+" inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
+inoremap ( ()<Esc>:call BC_AddChar(")")<CR>i
+inoremap [ []<Esc>:call BC_AddChar("]")<CR>i
+inoremap " ""<Esc>:call BC_AddChar("\"")<CR>i
 " jump out of parenthesis
 inoremap <C-j> <Esc>:call search(BC_GetChar(), "W")<CR>a
 
@@ -365,13 +373,13 @@ if has("autocmd")
 	filetype on
 
 	" Syntax of these languages is fussy over tabs Vs spaces
-	autocmd FileType make setlocal ts=8 sts=8 sw=8 noexpandtab
+	autocmd FileType make setlocal ts=4 sts=4 sw=4 noexpandtab
 	autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 	" Customisations based on house-style (arbitrary)
 	autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
 	autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
-	autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+	autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
 
 	" Enable spellchecking for Markdown
 	autocmd FileType markdown setlocal spell
@@ -422,8 +430,8 @@ if has("autocmd")
 	" Set syntax highlighting for specific file types
 	autocmd BufRead,BufNewFile *.md set filetype=markdown
 
-	" autocmd BufRead *.jsx set ft=jsx.html
-	" autocmd BufNewFile *.jsx set ft=jsx.html
+	autocmd BufRead *.jsx set ft=jsx.html
+	autocmd BufNewFile *.jsx set ft=jsx.html
 
 	" Automatically wrap at 80 characters for Markdown
 	autocmd BufRead,BufNewFile *.md setlocal textwidth=80
@@ -557,6 +565,12 @@ let g:move_key_modifier = 'C'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-sneak
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" g:sneak#s_next = 1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " neo-snippet
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key-mappings
@@ -580,40 +594,40 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " neocomplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:vimjs#casesensistive = 1
-let g:vimjs#smartcomplete = 0
-let g:vimjs#chromeapis = 0   
-
-let g:neocomplete#enable_at_startup = 1
-" set minimum syntax keyword length
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
+" let g:vimjs#casesensistive = 1
+" let g:vimjs#smartcomplete = 0
+" let g:vimjs#chromeapis = 0   
+"
+" let g:neocomplete#enable_at_startup = 1
+" " set minimum syntax keyword length
+" let g:neocomplete#sources#syntax#min_keyword_length = 3
+"
+" " Define keyword.
+" if !exists('g:neocomplete#keyword_patterns')
+"     let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"
+" " Plugin key-mappings.
+" inoremap <expr><C-g>     neocomplete#undo_completion()
+" inoremap <expr><C-l>     neocomplete#complete_common_string()
+"
 " Recommended key-mappings.
 " <CR>: closeopup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 
-function! s:my_cr_function()
-	return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" function! s:my_cr_function()
+" 	return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
 " For no inserting <CR> key.
 " return pumvisible() ? '\<C-y>' : '\<CR>'
-endfunction
+" endfunction
 
 " <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " <C-h>, <BS>: closeopup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -672,6 +686,7 @@ let g:airline_symbols.space = "\ua0"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NERDTreeIgnore=['node_modules$[[dir]]']
 map <leader>nd :NERDTree<CR>
 map <C-\> :NERDTreeToggle<CR>
 " autocmd StdinReadPre * let s:std_in=1
