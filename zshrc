@@ -1,3 +1,9 @@
+source /Users/levblanc/tools/Dev\ Tools/zsh-git-prompt/zshrc.sh
+source "$HOME/.antigen/antigen.zsh"
+
+antigen-apply
+
+
 # Enable auto completion
 autoload -U compinit
 compinit
@@ -44,9 +50,9 @@ promptinit
 
 #Config prompt colors
 autoload -U colors && colors
-PROMPT="
+PROMPT=' 
 $bg[black]$fg[yellow] %* $reset_color $fg[red]%n$reset_color at $fg[blue]%m$reset_color in $fg[green]%~
-$fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color"
+%b$(git_super_status)$reset_color $fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color'
 
 # Set tab title to cwd
 precmd () {
@@ -59,10 +65,17 @@ precmd () {
 export NVM_DIR="/Users/levblanc/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+# changes nvm mirror to taobao npm registry
 export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/dist
 
 # android env variable
 export ANDROID_HOME=/usr/local/opt/android-sdk
+
+# setup .vimrc file env variable
+export MY_VIMRC='/Users/levblanc/.vimrc'
+
+# setup env variable EDITOR
+export EDITOR='vim'
 
 # alias system vim to newer version vim (v7.4.1147)
 alias vi='/usr/local/bin/vim'
@@ -74,11 +87,8 @@ alias tmuxi='tmuxinator'
 # hook up .agignore
 alias ag='ag --path-to-agignore=~/.agignore'
 
-# setup .vimrc file env variable
-export MY_VIMRC='/Users/levblanc/.vimrc'
-
-# setup env variable EDITOR
-export EDITOR='vim'
+# alias mongod command
+alias mongod='mongod --dbpath ~/mongodb'
 
 # starting up vim to set the environment variable required 
 # to enable true colour in Neovim
