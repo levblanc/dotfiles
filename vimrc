@@ -22,10 +22,9 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Add or remove your Bundles here:
 
 " Vim Utils
-" NeoBundle 'Shougo/neocomplete.vim'
-" NeoBundle 'Shougo/neosnippet.vim'
-" NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'ctrlpvim/ctrlp.vim'                  " fuzzy search
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
@@ -44,7 +43,6 @@ NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'valloric/MatchTagAlways'
 NeoBundle 'matze/vim-move'
 NeoBundle 'justinmk/vim-sneak'
-" NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'editorconfig/editorconfig-vim'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-surround'
@@ -231,27 +229,6 @@ inoremap <silent> <C-S> <C-O>:update<CR>
 " also map leader + s
 map <leader>s <C-S>
 
-" parenthesis And Brackets Handling 
-" inoremap { {<CR>}<Esc>:call BC_AddChar("}")<CR><Esc>kA<CR>
-inoremap ( ()<Esc>:call BC_AddChar(")")<CR>i
-inoremap [ []<Esc>:call BC_AddChar("]")<CR>i
-inoremap " ""<Esc>:call BC_AddChar("\"")<CR>i
-" jump out of parenthesis
-inoremap <C-j> <Esc>:call search(BC_GetChar(), "W")<CR>a
-
-function! BC_AddChar(schar)
-	if exists("b:robstack")
- 		let b:robstack = b:robstack . a:schar
-   	else
-    		let b:robstack = a:schar
-     	endif
-endfunction
-
-function! BC_GetChar()
-	let l:char = b:robstack[strlen(b:robstack)-1]
-	let b:robstack = strpart(b:robstack, 0, strlen(b:robstack)-1)
-	return l:char
-endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping for JsDoc
@@ -392,11 +369,6 @@ if has("autocmd")
 	" autocmd FileType css,scss,sass,less :ColorHighlight
 	" Allow stylesheets to autocomplete hyphenated words
 	autocmd FileType css,scss,sass,less setlocal iskeyword+=-
-
-	" auto-complete
-	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 	" Remapping emmet's default keys '<C-y>,'
 	function! s:expand_html_tab()
@@ -553,7 +525,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " delimitMate
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 " let g:delimitMate_jump_expansion=1
 " let g:delimitMate_balance_matchpairs=1
@@ -567,7 +539,7 @@ let g:move_key_modifier = 'C'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-sneak
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" g:sneak#s_next = 1
+let g:sneak#s_next = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -594,40 +566,58 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " neocomplete
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:vimjs#casesensistive = 1
-" let g:vimjs#smartcomplete = 0
-" let g:vimjs#chromeapis = 0   
-"
-" let g:neocomplete#enable_at_startup = 1
-" " set minimum syntax keyword length
-" let g:neocomplete#sources#syntax#min_keyword_length = 3
-"
-" " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-"     let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-"
-" " Plugin key-mappings.
-" inoremap <expr><C-g>     neocomplete#undo_completion()
-" inoremap <expr><C-l>     neocomplete#complete_common_string()
-"
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+let g:vimjs#casesensistive = 1
+let g:vimjs#smartcomplete = 0
+let g:vimjs#chromeapis = 0   
+
+" set minimum syntax keyword length
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
 " Recommended key-mappings.
 " <CR>: closeopup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 
-" function! s:my_cr_function()
-" 	return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-" For no inserting <CR> key.
-" return pumvisible() ? '\<C-y>' : '\<CR>'
-" endfunction
+function! s:my_cr_function()
+	return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+	" For no inserting <CR> key.
+	" return pumvisible() ? '\<C-y>' : '\<CR>'
+endfunction
 
 " <TAB>: completion.
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " <C-h>, <BS>: closeopup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+" auto-complete
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
