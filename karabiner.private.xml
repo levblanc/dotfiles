@@ -7,15 +7,50 @@
 	<item>
 		<name>Remap Arrow Keys</name>
 		<identifier>private.remap_arrow_keys</identifier>
-		<autogen>__KeyToKey__ KeyCode::H, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_LEFT</autogen>
-		<autogen>__KeyToKey__ KeyCode::J, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_DOWN</autogen>
-		<autogen>__KeyToKey__ KeyCode::K, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_UP</autogen>
-		<autogen>__KeyToKey__ KeyCode::L, VK_CONTROL | ModifierFlag::NONE, KeyCode::CURSOR_RIGHT</autogen>
+		<autogen>
+			__KeyToKey__
+		  KeyCode::H, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::CURSOR_LEFT
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::J, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+		  KeyCode::CURSOR_DOWN
+		</autogen>
+		<autogen>
+			__KeyToKey__
+		  KeyCode::K, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+		  KeyCode::CURSOR_UP
+		</autogen>
+		<autogen>
+			__KeyToKey__
+		  KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+		  KeyCode::CURSOR_RIGHT
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::H, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L,
+			KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::COMMAND_L,
+			KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L,
+			KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L
+		</autogen>
 	</item>
 	<item>
 		<name>Remap Backspace</name>
 		<identifier>private.remap_backspace</identifier>
-		<autogen>__KeyToKey__ KeyCode::SEMICOLON, VK_CONTROL | ModifierFlag::NONE, KeyCode::DELETE</autogen>
+		<autogen>
+			__KeyToKey__
+		  KeyCode::SEMICOLON, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+		  KeyCode::DELETE
+		</autogen>
 	</item>
 </root>
 
