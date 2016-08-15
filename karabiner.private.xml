@@ -9,23 +9,23 @@
 		<identifier>private.remap_arrow_keys</identifier>
 		<autogen>
 			__KeyToKey__
-		  KeyCode::H, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::H, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
 			KeyCode::CURSOR_LEFT
 		</autogen>
 		<autogen>
 			__KeyToKey__
 			KeyCode::J, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
-		  KeyCode::CURSOR_DOWN
+			KeyCode::CURSOR_DOWN
 		</autogen>
 		<autogen>
 			__KeyToKey__
-		  KeyCode::K, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
-		  KeyCode::CURSOR_UP
+			KeyCode::K, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::CURSOR_UP
 		</autogen>
 		<autogen>
 			__KeyToKey__
-		  KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
-		  KeyCode::CURSOR_RIGHT
+			KeyCode::L, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::CURSOR_RIGHT
 		</autogen>
 		<autogen>
 			__KeyToKey__
@@ -44,12 +44,17 @@
 		</autogen>
 	</item>
 	<item>
-		<name>Remap Backspace</name>
-		<identifier>private.remap_backspace</identifier>
+		<name>Remap Backspace and Forward Delete</name>
+		<identifier>private.remap_backspace_and_forward_delete</identifier>
 		<autogen>
 			__KeyToKey__
-		  KeyCode::SEMICOLON, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
-		  KeyCode::DELETE
+			KeyCode::SEMICOLON, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::DELETE
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::M, ModifierFlag::CONTROL_L | ModifierFlag::NONE,
+			KeyCode::FORWARD_DELETE
 		</autogen>
 	</item>
 </root>
