@@ -229,6 +229,11 @@ inoremap <silent> <C-S> <C-O>:update<CR>
 " also map leader + s
 map <leader>s <C-S>
 
+" Use leader-[hjkl] to select the active split!
+nmap <silent> <leader>k :wincmd k<CR>
+nmap <silent> <leader>j :wincmd j<CR>
+nmap <silent> <leader>h :wincmd h<CR>
+nmap <silent> <leader>l :wincmd l<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mapping for JsDoc
@@ -401,9 +406,9 @@ if has("autocmd")
 
 	" Set syntax highlighting for specific file types
 	autocmd BufRead,BufNewFile *.md set filetype=markdown
-
-	autocmd BufRead *.jsx set ft=jsx.html
-	autocmd BufNewFile *.jsx set ft=jsx.html
+	autocmd BufRead *.jsx set filetype=jsx.html
+	autocmd BufNewFile *.jsx set filetype=jsx.html
+	autocmd BufNewFile,BufRead *.ejs set filetype=html
 
 	" Automatically wrap at 80 characters for Markdown
 	autocmd BufRead,BufNewFile *.md setlocal textwidth=80
