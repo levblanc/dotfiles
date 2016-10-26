@@ -90,6 +90,9 @@ alias ag='ag --path-to-agignore=~/.agignore'
 # alias mongod command
 alias mongod='mongod --dbpath ~/mongodb'
 
+# alias ngrok 
+alias ngrok='/Applications/ngrok'
+
 # starting up vim to set the environment variable required 
 # to enable true colour in Neovim
 # (doesn't work quite well. Disable for now. @2016-02-01)
@@ -100,5 +103,5 @@ alias mongod='mongod --dbpath ~/mongodb'
 # tmuxinator completion file
 source ~/.zsh_tmuxinator_completion
 
-# enable pyenv shims and autocompletion
-eval "$(pyenv init -)"
+# To enable shims and autocompletion add to your profile:
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
