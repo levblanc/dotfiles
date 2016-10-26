@@ -102,6 +102,3 @@ alias ngrok='/Applications/ngrok'
 
 # tmuxinator completion file
 source ~/.zsh_tmuxinator_completion
-
-# To enable shims and autocompletion add to your profile:
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
