@@ -28,6 +28,7 @@ NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'ctrlpvim/ctrlp.vim'                  " fuzzy search
 NeoBundle 'rking/ag.vim'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'tpope/vim-fugitive'                  " git support
 NeoBundle 'wincent/terminus'                    " better terminal integration
 NeoBundle 'tmux-plugins/vim-tmux'
@@ -54,7 +55,6 @@ NeoBundle 'heavenshell/vim-jsdoc'
 
 " Color Schemes
 NeoBundle 'morhetz/gruvbox'                  " gruvbox colorscheme
-" NeoBundle 'altercation/vim-colors-solarized' " solarized colorscheme
 NeoBundle 'crusoexia/vim-monokai'            " monokai colorscheme
 
 " Syntax highlight
@@ -172,15 +172,10 @@ set t_Co=256
 syntax enable
 set background=dark
 " colorscheme gruvbox
-" let g:solarized_termcolors=256
 colorscheme monokai
 let g:airline_theme='badwolf'
 " highlight NonText guifg=#4a4a59
 " highlight SpecialKey guifg=#4a4a59
-
-" if one line is longer than 80 chars, give it a red bg
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -362,6 +357,7 @@ if has("autocmd")
 	autocmd FileType html setlocal ts=2 sts=2 sw=2 expandtab
 	autocmd FileType css setlocal ts=2 sts=2 sw=2 expandtab
 	autocmd FileType javascript setlocal ts=2 sts=2 sw=2 noexpandtab
+	autocmd FileType c setlocal ts=2 sts=2 sw=2 noexpandtab
 
 	" Enable spellchecking for Markdown
 	autocmd FileType markdown setlocal spell
@@ -399,17 +395,15 @@ if has("autocmd")
 	" enable emmet just for html/css
 	autocmd FileType html,css EmmetInstall
 
-	" Treat .rss files as XML
-	autocmd BufNewFile,BufRead *.rss setfiletype xml
 	" Strip trailing whitespaces for .py and .js files
 	autocmd BufWritePre *.py,*.js :call <SID>StripTrailingWhitespaces()
 
+	" Treat .rss files as XML
+	autocmd BufNewFile,BufRead *.rss setfiletype xml
 	" Set syntax highlighting for specific file types
-	autocmd BufRead,BufNewFile *.md set filetype=markdown
-	autocmd BufRead *.jsx set filetype=jsx.html
-	autocmd BufNewFile *.jsx set filetype=jsx.html
-	autocmd BufNewFile,BufRead *.ejs set filetype=html
-
+	autocmd BufRead,BufNewFile *.jsx setfiletype jsx.html
+	autocmd BufRead,BufNewFile *.ejs setfiletype html
+	autocmd BufRead,BufNewFile *.md setfiletype markdown
 	" Automatically wrap at 80 characters for Markdown
 	autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 
@@ -454,24 +448,6 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 
 
-" """"""""""""""""""""""""""""""""""""""""""""""""""""""
-" " Easy Motion
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " <Leader>f{char} to move to {char}
-" map  <Leader>f <Plug>(easymotion-bd-f)
-" nmap <Leader>f <Plug>(easymotion-overwin-f)
-"
-" " s{char}{char} to move to {char}{char}
-" nmap s <Plug>(easymotion-overwin-f2)
-"
-" " Move to line
-" map <Leader>L <Plug>(easymotion-bd-jk)
-" nmap <Leader>L <Plug>(easymotion-overwin-line)
-"
-" " Move to word
-" map  <Leader>w <Plug>(easymotion-bd-w)
-" nmap <Leader>w <Plug>(easymotion-overwin-w)
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " rainbow parentheses configs
@@ -499,14 +475,6 @@ let g:rbpt_colorpairs = [
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " tabular
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" <space>= to align equals signs
-" <space>= to align equals signs
-" if exists(":Tabularize")
-" 	nnoremap <leader>ag= :Tabularize /=<CR>
-" 	vnoremap <leader>ag= :Tabularize /=<CR>
-" 	nnoremap <leader>ag: :Tabularize /:\zs<CR>
-" 	vnoremap <leader>ag: :Tabularize /:\zs<CR>
-" endif
 nnoremap <leader>al= :Tabularize /=<CR>
 vnoremap <leader>al= :Tabularize /=<CR>
 nnoremap <leader>al: :Tabularize /:<CR>
@@ -526,14 +494,6 @@ function! s:align()
   endif
 endfunction
 			
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" delimitMate
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_expand_space = 1
-" let g:delimitMate_jump_expansion=1
-" let g:delimitMate_balance_matchpairs=1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-move
@@ -628,17 +588,30 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_mode_map = { 'mode': 'active',
+                            \ 'active_filetypes': ['python', 'javascript'],
+                            \ 'passive_filetypes': [] }
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_javascript_checkers = ['jscs', 'eslint']
-let g:syntastic_check_on_open = 0
 
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '!'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '!'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_javascript_checkers = ['eslint']
+
+let g:syntastic_error_symbol = '❌ '
+let g:syntastic_style_error_symbol = '⁉️ '
+let g:syntastic_warning_symbol = '⚠️ '
+let g:syntastic_style_warning_symbol = '💩'
+
+highlight link SyntasticErrorSign SignColumn
+highlight link SyntasticWarningSign SignColumn
+highlight link SyntasticStyleErrorSign SignColumn
+highlight link SyntasticStyleWarningSign SignColumn
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -684,9 +657,6 @@ let g:airline_symbols.space = "\ua0"
 let g:NERDTreeIgnore=['node_modules$[[dir]]']
 map <leader>nd :NERDTree<CR>
 map <C-\> :NERDTreeToggle<CR>
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" let NERDTreeShowHidden=1
 
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
@@ -716,7 +686,6 @@ call NERDTreeHighlightFile('php','Magenta', 'none', '#ff00ff','#151515')
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor 
-  " nnoremap <silent> t :CtrlP<cr>
 
   " exclude files and dir with ctrlp
   let g:ctrlp_custom_ignore = '\v[\/](node_modules|dist)|(\.(swp|ico|svn|DS_Store))$'
@@ -732,3 +701,16 @@ if executable('ag')
 endif 
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ctrlP
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+imap <expr> <CR> pumvisible() ? "\<c-y>" : "<Plug>delimitMateCR"
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-markdown
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_json_frontmatter = 1
