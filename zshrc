@@ -1,4 +1,4 @@
-source ~/.zsh-git-prompt.sh
+source ~/.git-prompt.sh
 source "$HOME/.antigen/antigen.zsh"
 
 antigen-apply
