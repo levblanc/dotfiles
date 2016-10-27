@@ -1,4 +1,4 @@
-source /Users/levblanc/tools/Dev\ Tools/zsh-git-prompt/zshrc.sh
+source ~/.zsh-git-prompt.sh
 source "$HOME/.antigen/antigen.zsh"
 
 antigen-apply
@@ -50,15 +50,36 @@ promptinit
 
 #Config prompt colors
 autoload -U colors && colors
-PROMPT=' 
-$bg[black]$fg[yellow] %* $reset_color $fg[red]%n$reset_color at $fg[blue]%m$reset_color in $fg[green]%~
-%b$(git_super_status)$reset_color $fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color'
+setopt PROMPT_SUBST; 
+
+export GIT_PS1_SHOWUPSTREAM='verbose'
+export GIT_PS1_SHOWDIRTYSTATE=yes
+export GIT_PS1_STATESEPARATOR='|'
+export GIT_PS1_SHOWUNTRACKEDFILES=yes
+export GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+PS1='
+$fg[green] %*$reset_color λ $reset_color%F{81}%~$reset_color $fg[yellow]$(__git_ps1 "[%s]")$reset_color
+$fg[blue] ❯$fg[cyan]❯$fg[green]❯$fg[yellow]❯$fg[yellow]❯$fg[red]❯$fg[magenta]❯$fg[magenta]❯ $reset_color'
+# PROMPT=' 
+# $bg[black]$fg[yellow] %* $reset_color $fg[red]%n$reset_color at $fg[blue]%m$reset_color in $fg[green]%~
+# $fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color'
 
 # Set tab title to cwd
 precmd () {
    tab_label=${PWD/${HOME}/\~} # use 'relative' path
    echo -ne "\e]2;${tab_label}\a" # set window title to full string
    echo -ne "\e]1;${tab_label: -24}\a" # set tab title to rightmost 24 characters
+}
+
+# mkdir && cd to a directory 
+function take {
+  if [ ! -n "$1" ]; then
+    echo "Enter a directory name"
+  elif [ -d $1 ]; then
+    echo "\`$1' already exists"
+  else
+    mkdir $1 && cd $1
+  fi
 }
 
 # nvm
