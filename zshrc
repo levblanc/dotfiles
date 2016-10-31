@@ -65,15 +65,15 @@ __pyenv_version_ps1 ()
     output=$(pyenv version-name);
 
     if [[ -n $output && $output != "system" ]]; then
-        echo -n "(pyenv@$output)"
+        echo -n "(py@$output)"
     fi
 
     return $ret;
 }
 
 PS1='
-$fg[magenta]$(__pyenv_version_ps1)$reset_color λ $reset_color%F{81}%~$reset_color $fg[yellow]$(__git_ps1 "[%s]")$reset_color
-$fg[green] %t$reset_color$fg[blue] ❯$fg[cyan]❯$fg[green]❯$fg[yellow]❯$fg[red]❯$fg[magenta]❯ $reset_color'
+$fg[magenta] %*$reset_color λ $reset_color%F{81}%~$reset_color $fg[yellow]$(__git_ps1 "[%s]")$reset_color
+$fg[cyan]$(__pyenv_version_ps1)$reset_color$fg[blue] ❯$fg[cyan]❯$fg[green]❯$fg[yellow]❯$fg[red]❯$fg[magenta]❯ $reset_color'
 # PROMPT=' 
 # $bg[black]$fg[yellow] %* $reset_color $fg[red]%n$reset_color at $fg[blue]%m$reset_color in $fg[green]%~
 # $fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color'
