@@ -54,12 +54,26 @@ setopt PROMPT_SUBST;
 
 export GIT_PS1_SHOWUPSTREAM='verbose'
 export GIT_PS1_SHOWDIRTYSTATE=yes
-export GIT_PS1_STATESEPARATOR='|'
+export GIT_PS1_STATESEPARATOR=' | '
 export GIT_PS1_SHOWUNTRACKEDFILES=yes
 export GIT_PS1_HIDE_IF_PWD_IGNORED=yes
+
+# get pyenv version name
+__pyenv_version_ps1 ()
+{
+    local ret=$?;
+    output=$(pyenv version-name);
+
+    if [[ -n $output && $output != "system" ]]; then
+        echo -n "(pyenv@$output)"
+    fi
+
+    return $ret;
+}
+
 PS1='
-$fg[green] %*$reset_color λ $reset_color%F{81}%~$reset_color $fg[yellow]$(__git_ps1 "[%s]")$reset_color
-$fg[blue] ❯$fg[cyan]❯$fg[green]❯$fg[yellow]❯$fg[yellow]❯$fg[red]❯$fg[magenta]❯$fg[magenta]❯ $reset_color'
+$fg[magenta]$(__pyenv_version_ps1)$reset_color λ $reset_color%F{81}%~$reset_color $fg[yellow]$(__git_ps1 "[%s]")$reset_color
+$fg[green] %t$reset_color$fg[blue] ❯$fg[cyan]❯$fg[green]❯$fg[yellow]❯$fg[red]❯$fg[magenta]❯ $reset_color'
 # PROMPT=' 
 # $bg[black]$fg[yellow] %* $reset_color $fg[red]%n$reset_color at $fg[blue]%m$reset_color in $fg[green]%~
 # $fg[cyan]❯$fg[blue]❯$fg[magenta]❯$fg[red]❯$fg[yellow]❯$fg[green]❯ $reset_color'
@@ -97,6 +111,9 @@ export MY_VIMRC='/Users/levblanc/.vimrc'
 
 # setup env variable EDITOR
 export EDITOR='vim'
+
+# simulate prompt changing behavior of pyenv virtualenv
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # alias system vim to newer version vim (v7.4.1147)
 alias vi='/usr/local/bin/vim'
