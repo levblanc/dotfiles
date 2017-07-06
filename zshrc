@@ -86,7 +86,7 @@ precmd () {
 }
 
 # mkdir && cd to a directory 
-function take {
+function take() {
   if [ ! -n "$1" ]; then
     echo "Enter a directory name"
   elif [ -d $1 ]; then
@@ -96,12 +96,17 @@ function take {
   fi
 }
 
+# alias php composer command to init laravel projects
+function laranew() {
+    composer create-project --prefer-dist laravel/laravel $1
+}
+
 # nvm
 export NVM_DIR="/Users/levblanc/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # changes nvm mirror to taobao npm registry
-export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/dist
+export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
 
 # android env variable
 export ANDROID_HOME=/usr/local/opt/android-sdk
@@ -114,6 +119,9 @@ export EDITOR='vim'
 
 # simulate prompt changing behavior of pyenv virtualenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+# setup influxdb config file env variable
+export INFLUXDB_CONFIG_PATH='/usr/local/etc/influxdb.conf'
 
 # alias system vim to newer version vim (v7.4.1147)
 alias vi='/usr/local/bin/vim'
@@ -131,6 +139,15 @@ alias mongod='mongod --dbpath ~/mongodb'
 # alias ngrok 
 alias ngrok='/Applications/ngrok'
 
+# alias proxychains 
+alias png='proxychains4'
+
+# alias python 
+alias py='python'
+
+# alias grafana 
+alias grafana='sh ~/scripts/grafana.sh'
+
 # starting up vim to set the environment variable required 
 # to enable true colour in Neovim
 # (doesn't work quite well. Disable for now. @2016-02-01)
@@ -140,3 +157,8 @@ alias ngrok='/Applications/ngrok'
 
 # tmuxinator completion file
 source ~/.zsh_tmuxinator_completion
+
+export PATH="$HOME/.yarn/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+
