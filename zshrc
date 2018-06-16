@@ -145,6 +145,14 @@ export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
+# setup go env variables 
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+
+# miniconda3 
+export PATH="/Users/levblanc/miniconda3/bin:$PATH"
+
 # alias system vim to newer version vim (v7.4.1147)
 alias vi='/usr/local/bin/vim'
 # alias vim='/usr/local/bin/vim'
