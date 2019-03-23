@@ -150,9 +150,6 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 
-# miniconda3 
-export PATH="/Users/levblanc/miniconda3/bin:$PATH"
-
 # alias system vim to newer version vim (v7.4.1147)
 alias vi='/usr/local/bin/vim'
 # alias vim='/usr/local/bin/vim'
@@ -168,9 +165,6 @@ alias mongod='mongod --dbpath ~/mongodb'
 
 # alias ngrok 
 alias ngrok='/Applications/ngrok'
-
-# alias proxychains 
-alias png='proxychains4'
 
 # alias python 
 alias py='python'
