@@ -172,5 +172,6 @@ alias py='python'
 # alias grafana 
 alias grafana='sh ~/scripts/grafana.sh'
 
-
-
+# mongodb v3.4 setting
+# so that you can run "mongod" directly in terminal
+export PATH="/usr/local/opt/mongodb@3.4/bin:$PATH"
