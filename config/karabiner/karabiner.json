@@ -170,7 +170,7 @@
                         ]
                     },
                     {
-                        "description": "Shift to jump over words",
+                        "description": "Single tap on Shift key to jump over a word",
                         "manipulators": [
                             {
                                 "from": {
