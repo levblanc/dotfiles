@@ -114,11 +114,6 @@ function take() {
   fi
 }
 
-# alias php composer command to init laravel projects
-function laranew() {
-  composer create-project --prefer-dist laravel/laravel $1
-}
-
 # nvm
 export NVM_DIR="/Users/levblanc/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -143,7 +138,6 @@ export INFLUXDB_CONFIG_PATH='/usr/local/etc/influxdb.conf'
 
 export PATH="$HOME/.yarn/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # setup go env variables 
 export GOPATH=$HOME/go
@@ -160,9 +154,6 @@ alias tmuxi='tmuxinator'
 # hook up .agignore
 alias ag='ag --path-to-agignore=~/.agignore'
 
-# alias mongod command
-alias mongod='mongod --dbpath ~/mongodb'
-
 # alias ngrok 
 alias ngrok='/Applications/ngrok'
 
@@ -172,6 +163,41 @@ alias py='python'
 # alias grafana 
 alias grafana='sh ~/scripts/grafana.sh'
 
+# alias mongod command
+alias mongod='mongod --dbpath ~/mongodb'
+ 
 # mongodb v3.4 setting
 # so that you can run "mongod" directly in terminal
 export PATH="/usr/local/opt/mongodb@3.4/bin:$PATH"
+
+# add IntelliJ Idea command line launcher to path
+export PATH="/usr/local/bin/idea:$PATH"
+
+# add PostgreSQL to path
+export PATH="/Applications/Postgres.app/Contents/Versions/12/bin/:$PATH"
+
+# set JAVA_HOME
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8.0`
+
+# add maven to path
+export PATH="/usr/local/bin/apache-maven-3.6.3/bin:$PATH"
+
+# set GPG_TTY
+GPG_TTY=$(tty)
+export GPG_TTY
+
+# add anaconda3 to path
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/levblanc/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/levblanc/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/levblanc/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/levblanc/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
