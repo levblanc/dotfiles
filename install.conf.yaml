@@ -15,7 +15,7 @@
     ~/.zprofile: zprofile
     ~/.zshrc: zshrc
     ~/.config/karabiner/karabiner.json: karabiner.json
-    ~/.config/nvim/lua/user: astronvim
+    ~/.config/nvim/lua/user: nvim/lua/user
 
 - create:
     - ~/.vim/undo-history
