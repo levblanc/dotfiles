@@ -1,0 +1,24 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.tmux.conf: tmux.conf
+    ~/.vim: vim
+    ~/.vimrc: vimrc
+    ~/.gitconfig: gitconfig
+    ~/.npmrc: npmrc
+    ~/.profile: profile
+    ~/.yarnrc: yarnrc
+    ~/.zprofile: zprofile
+    ~/.zshrc: zshrc
+    ~/.config/karabiner/karabiner.json: karabiner.json
+    ~/.config/nvim/lua/user: astronvim
+
+- create:
+    - ~/.vim/undo-history
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]

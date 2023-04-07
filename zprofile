@@ -1,5 +1,3 @@
-# enable shims and autocompletion
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-# enable auto activate/deactivate virtualenvs on entering/leaving directories 
-# which contain a .python-version file
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git"

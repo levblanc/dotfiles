@@ -1,0 +1,16 @@
+[core]
+	excludesfile = /Users/levblanc/.gitignore_global
+[user]
+	name = levblanc
+	email = levblanc@gmail.com
+[commit]
+	template = /Users/levblanc/.stCommitMsg
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
